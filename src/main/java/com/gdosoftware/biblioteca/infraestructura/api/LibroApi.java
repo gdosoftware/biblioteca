@@ -7,19 +7,15 @@ package com.gdosoftware.biblioteca.infraestructura.api;
 
 import com.gdosoftware.biblioteca.domain.interfaces.ILibroCasoUso;
 import com.gdosoftware.biblioteca.domain.modelo.Libro;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Dani
- * type LibroController struct{
- *  libroCasoUso LibroCasoUso
+ * type LibroApi struct{
+ *  libroCasoUso ILibroCasoUso
  * }
  * 
- * (cu *LibroController) createLibro(libro *model.Libro): (*model.Libro,error){
+ * (cu *LibroApi) createLibro(libro *model.Libro): (*model.Libro,error){
  *   cu.createLibro(libro)
  * }
  */

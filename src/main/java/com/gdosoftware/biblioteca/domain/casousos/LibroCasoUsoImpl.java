@@ -13,16 +13,18 @@ import java.util.List;
 /**
  *
  * @author Dani
- * 
+ * type LibroCasoUsoImpl struct {
+ *      repo  ILibroRepository
+ * }
  * 
  * (repo *ILibroRepository) func createLibro(libro *model.Libro) (*modelo.Libro, error){
  *      libro:=repo.create(libro)
  *      return libro, nill;
  * }
- * (repo *ILibroRepository) func retrieveLibro(id number) (*modelo.Libro, error)
- * (repo *ILibroRepository) func updateLibro(id number, libro *model.Libro) (*modelo.Libro, error)
- * (repo *ILibroRepository) func deleteLibro(id number) (error)
- * (repo *ILibroRepository) func findAllLibro() ([]modelo.Libro, error)
+ * (repo *LibroCasoUsoImpl) func retrieveLibro(id number) (*modelo.Libro, error)
+ * (repo *LibroCasoUsoImpl) func updateLibro(id number, libro *model.Libro) (*modelo.Libro, error)
+ * (repo *LibroCasoUsoImpl) func deleteLibro(id number) (error)
+ * (repo *LibroCasoUsoImpl) func findAllLibro() ([]modelo.Libro, error)
  */
 public class LibroCasoUsoImpl implements ILibroCasoUso{
     private ILibroRepository libroRepo;
