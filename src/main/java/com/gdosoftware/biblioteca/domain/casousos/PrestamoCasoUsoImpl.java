@@ -22,6 +22,14 @@ public class PrestamoCasoUsoImpl implements IPrestamoCasoUso{
     private ILibroRepository libroRepo;
     private IPrestamoRepository prestamoRepo;
 
+    public PrestamoCasoUsoImpl(ISocioRepository socioRepo, ILibroRepository libroRepo, IPrestamoRepository prestamoRepo) {
+        this.socioRepo = socioRepo;
+        this.libroRepo = libroRepo;
+        this.prestamoRepo = prestamoRepo;
+    }
+    
+    
+
     @Override
     public Prestamo createPrestamo(Long socioId, Long libroId) {
         Socio socio = socioRepo.retrieve(socioId);

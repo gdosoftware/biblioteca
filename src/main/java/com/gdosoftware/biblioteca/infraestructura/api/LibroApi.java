@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gdosoftware.biblioteca.infraestructura.view.controller;
+package com.gdosoftware.biblioteca.infraestructura.api;
 
 import com.gdosoftware.biblioteca.domain.interfaces.ILibroCasoUso;
 import com.gdosoftware.biblioteca.domain.modelo.Libro;
@@ -23,13 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
  *   cu.createLibro(libro)
  * }
  */
-@RestController
-public class LibroController {
+public class LibroApi {
        
     private ILibroCasoUso libroCasoUso;
-    
-    @PostMapping("/libro")
-    public ResponseEntity<Libro> creteLibro(@RequestBody()Libro libro){
-        return ResponseEntity.ok(libroCasoUso.createLibro(libro));
+
+    public LibroApi(ILibroCasoUso libroCasoUso) {
+        this.libroCasoUso = libroCasoUso;
+    }
+        
+    public Libro crete(Libro libro){
+        return libroCasoUso.createLibro(libro);
     }
 }

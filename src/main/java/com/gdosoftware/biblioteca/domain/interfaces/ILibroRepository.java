@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Dani
  * 
- * type LibroRepository interface{
+ * type ILibroRepository interface{
  * 
  *  create(libro *Libro) (*modelo.Libro,error)
  *  update(id number, libro *Libro) (*modelo.Libro,error)

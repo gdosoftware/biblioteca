@@ -18,6 +18,12 @@ public class SocioCasoUsoImpl implements ISocioCasoUso{
     
     private ISocioRepository socioRepo;
 
+    public SocioCasoUsoImpl(ISocioRepository socioRepo) {
+        this.socioRepo = socioRepo;
+    }
+    
+    
+
     @Override
     public Socio createLibro(Socio socio) {
         return socioRepo.create(socio);
