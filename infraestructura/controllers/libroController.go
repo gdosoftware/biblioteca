@@ -1,20 +1,21 @@
 package controller
 
+import("github.com/gdosoftware/biblioteca/infraestructura/api")
+
 type LibroController struct {
-	ChannelGroupAPI *api.LibroApi
+	LibroApi *api.LibroApi
 	routes          []*rest.Route
 }
 
 func CreateLibroController(api *api.LibroApi) *LibroController {
 	controller := LibroController{LibroApi: api}
 	routes := []*rest.Route{
-		rest.Get("/libro/#id", api.GetOne),
-		rest.Get("/libro/application/:app", api.GetAll),
-		rest.Get("/libro/application/:app/:type", api.GetByType),
+		rest.Get("/libro/#id", api.RecuperarLibro),
+		rest.Get("/libro/", api.RecuperarTodosLosLibro),
 
-		rest.Post("/libro", api.Save),
-		rest.Put("/libro/#id", api.Update),
-		rest.Delete("/libro/#id", api.Delete),
+		rest.Post("/libro", api.AltaLibro),
+		rest.Put("/libro/#id", api.ModificacionLibro),
+		rest.Delete("/libro/#id", api.BorrarLibro),
 	}
 	controller.routes = routes
 	return &controller

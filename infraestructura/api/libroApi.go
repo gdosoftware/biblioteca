@@ -20,7 +20,7 @@ func createLibroApi(logger  logger.Logger){
     retrun &LibroApi(logger :  logger.GetDefaultLogger())
 }
 
-func (s *LibroApi) altaLibro(w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) AltaLibro(w rest.ResponseWriter, r *rest.Request) {
 	defer s.Body.Close()
 
 	var toSAve modelo.Libro
@@ -40,7 +40,7 @@ func (s *LibroApi) altaLibro(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (s *LibroApi) modificacionLibro(w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) ModificacionLibro(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
 	defer r.Body.Close()
 	
@@ -60,7 +60,7 @@ func (s *LibroApi) modificacionLibro(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (s *LibroApi) borrarLibro(w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) BorrarLibro(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
 	defer r.Body.Close()
 	
@@ -74,7 +74,7 @@ func (s *LibroApi) borrarLibro(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (s *LibroApi) recuperarLibro(w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) RecuperarLibro(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
 	logger.GetDefaultLogger().Infof("Request to get One Channel Group for id", id)
 
@@ -94,7 +94,7 @@ func (s *LibroApi) recuperarLibro(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (s *LibroApi) recuperarTodosLosLibros() ((w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) RecuperarTodosLosLibros() ((w rest.ResponseWriter, r *rest.Request) {
 	
 	logger.GetDefaultLogger().Infof("Request to get all channel group")
 

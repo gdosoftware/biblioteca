@@ -13,14 +13,14 @@ type PrestamoCasoUsoImpl struct {
 	repoPrestamo interfaces.IPrestamoRepository
 }
 
-func (r *PrestamoCasoUsoImpl) createPrestamo(socioId string, libroId string) (*modelo.Prestamo, error) {
+func (r *PrestamoCasoUsoImpl) CreatePrestamo(socioId string, libroId string) (*modelo.Prestamo, error) {
 	socio, _ := r.repoSocio.Retrieve(socioId)
 	libro, _ := r.repoLibro.Retrieve(libroId)
 	prestamo := modelo.Prestamo{Libro: libro, Socio: socio, Prestado: time.Now()}
 	return r.repoPrestamo.Create(&prestamo)
 }
 
-func (r *PrestamoCasoUsoImpl) devolucionPrestamo(prestamoId string) (*modelo.Prestamo, error) {
+func (r *PrestamoCasoUsoImpl) UpdatePrestamo(prestamoId string) (*modelo.Prestamo, error) {
 	prestamo, _ := r.repoPrestamo.Retrieve(prestamoId)
 	// prestamo.Devuelto:=time.Now()
 	return r.repoPrestamo.Update(prestamoId, prestamo)
