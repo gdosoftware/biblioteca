@@ -1,30 +1,112 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gdosoftware/biblioteca/domain/interfaces"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
+	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 )
 
 type SocioApi struct {
-	caso interfaces.ISocioCasoUso
+	logger  logger.Logger
+	support *SupportAPI
+	caso *interfaces.ISocioCasoUso
 }
 
-func (l *SocioApi) altaSocio(socio *modelo.Socio) (*modelo.Socio, error) {
-	return l.caso.CreateSocio(socio)
+
+func createSocioApi(logger  logger.Logger){
+    retrun &LibroApi(logger :  logger.GetDefaultLogger())
 }
 
-func (l *SocioApi) modificacionSocio(id string, socio *modelo.Socio) (*modelo.Socio, error) {
-	return l.caso.UpdateSocio(id, socio)
+func (s *SocioApi) altaSocio(w rest.ResponseWriter, r *rest.Request) {
+	defer s.Body.Close()
+
+	var toSave modelo.Socio
+	if err := s.support.readBody(&toSave, r); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.WriteJson(err.Error())
+		return
+	}
+
+	insert, err := s.caso.CreateSocio(&toSave)
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err, "insert Libro": libro}).Error("Error saving Channel Group")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteHeader(http.StatusCreated)
+		w.WriteJson(insert)
+	}
 }
 
-func (l *SocioApi) borrarSocio(id string) error {
-	return l.caso.DeleteSocio(id)
+func (s *SocioApi) modificacionSocio(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	defer r.Body.Close()
+	
+	var toUpdate modelo.Socio
+	if err := s.support.readBody(&toUpdate, r); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.WriteJson(err.Error())
+		return
+	}
+	// Udpate a item
+	updated, err := s.caso.updateSocio(id, &toUpdate)
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(updated)
+	}
 }
 
-func (l *SocioApi) recuperarSocio(id string) (modelo.Socio, error) {
-	return l.caso.RetrieveSocio(id)
+func (s *SocioApi) borrarSocio(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	defer r.Body.Close()
+	
+	err := s.caso.DeleteSocio(id)
+
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(id)
+	}
 }
 
-func (l *SocioApi) recuperarTodosLosSocios() ([]modelo.Socio, error) {
-	return l.caso.FindAllSocio()
+func (s *SocioApi) recuperarSocio(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	logger.GetDefaultLogger().Infof("Request to get One Channel Group for id", id)
+
+	if id == "" {
+		rest.Error(w, "Id is mandatory", http.StatusBadRequest)
+		return
+	}
+	
+	s.logger.WithFields(logger.Fields{"id": id}).Debug("Searching for Channel Group with specified Id")
+
+	item, err := s.caso.findSocioById(id)
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err, "id": id}).Error("Getting Channel Group by id")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(item)
+	}
 }
+
+func (s *SocioApi) recuperarTodosLosSocios() ((w rest.ResponseWriter, r *rest.Request) {
+	
+	logger.GetDefaultLogger().Infof("Request to get all channel group")
+
+	
+	socios, err := s.caso.findAllSocio()
+	if err != nil {
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(socios)
+	}
+}
+
+
+
+

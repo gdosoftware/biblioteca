@@ -16,21 +16,21 @@ type LibroApi struct {
 }
 
 
-func createLibroApi(support *SupportAPI, casoLibros interfaces.ILibroCasoUso){
+func createLibroApi(logger  logger.Logger){
     retrun &LibroApi(logger :  logger.GetDefaultLogger())
 }
 
-func (s *LibroApi) altaLIbro(w rest.ResponseWriter, r *rest.Request) {
+func (s *LibroApi) altaLibro(w rest.ResponseWriter, r *rest.Request) {
 	defer s.Body.Close()
 
-	var libro modelo.Libro
+	var toSAve modelo.Libro
 	if err := s.support.readBody(&toSave, r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.WriteJson(err.Error())
 		return
 	}
 
-	insert, err := s.CreateLibro(&libro)
+	insert, err := s.caso.CreateLibro(&libro)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err, "insert Libro": libro}).Error("Error saving Channel Group")
 		s.support.writeError(err, w)
@@ -40,22 +40,73 @@ func (s *LibroApi) altaLIbro(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (l *LibroApi) altaLibro(libro *modelo.Libro) (*modelo.Libro, error) {
-	return l.caso.CreateLibro(libro)
+func (s *LibroApi) modificacionLibro(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	defer r.Body.Close()
+	
+	var toUpdate modelo.Libro
+	if err := s.support.readBody(&toUpdate, r); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.WriteJson(err.Error())
+		return
+	}
+	// Udpate a item
+	updated, err := s.caso.updateLibro(id, &toUpdate)
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(updated)
+	}
 }
 
-func (l *LibroApi) modificacionLibro(id string, libro *modelo.Libro) (*modelo.Libro, error) {
-	return l.caso.UpdateLibro(id, libro)
+func (s *LibroApi) borrarLibro(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	defer r.Body.Close()
+	
+	err := s.caso.DeleteLibro(id)
+
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(id)
+	}
 }
 
-func (l *LibroApi) borrarLibro(id string) error {
-	return l.caso.DeleteLibro(id)
+func (s *LibroApi) recuperarLibro(w rest.ResponseWriter, r *rest.Request) {
+	id := r.PathParam("id")
+	logger.GetDefaultLogger().Infof("Request to get One Channel Group for id", id)
+
+	if id == "" {
+		rest.Error(w, "Id is mandatory", http.StatusBadRequest)
+		return
+	}
+	
+	s.logger.WithFields(logger.Fields{"id": id}).Debug("Searching for Channel Group with specified Id")
+
+	item, err := s.caso.findLibroById(id)
+	if err != nil {
+		s.logger.WithFields(logger.Fields{"error": err, "id": id}).Error("Getting Channel Group by id")
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(item)
+	}
 }
 
-func (l *LibroApi) recuperarLibro(id string) (modelo.Libro, error) {
-	return l.caso.RetrieveLibro(id)
+func (s *LibroApi) recuperarTodosLosLibros() ((w rest.ResponseWriter, r *rest.Request) {
+	
+	logger.GetDefaultLogger().Infof("Request to get all channel group")
+
+	
+	bins, err := s.caso.findAllLibro()
+	if err != nil {
+		s.support.writeError(err, w)
+	} else {
+		w.WriteJson(bins)
+	}
 }
 
-func (l *LibroApi) recuperarTodosLosLibros() ([]modelo.Libro, error) {
-	return l.caso.FindAllLibro()
-}
+
+
+
