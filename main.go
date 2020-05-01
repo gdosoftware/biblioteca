@@ -3,9 +3,9 @@ package main
 import (
     
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/domain/casousos"
 	"github.com/gdosoftware/biblioteca/infraestructura/api"
-	"github.com/gdosoftware/biblioteca/infraestructura/module"
+    "github.com/gdosoftware/biblioteca/infraestructura/module"
+    "github.com/gdosoftware/biblioteca/infraestructura/health"
 	"github.com/gdosoftware/biblioteca/infraestructura"
 )
 
@@ -29,8 +29,8 @@ func main() {
 
     // Repositorios
     libroRepository := module.CreateLibroRepository(log)
-    socioRepository := module.CreateSocioRepository(log)
-    prestamoRepository := module.CreatePrestamoRepository(log)
+  //  socioRepository := module.CreateSocioRepository(log)
+   // prestamoRepository := module.CreatePrestamoRepository(log)
 	
 	/*	jwtDecoder := module.CreateJwtDecoder()
 		jwtTokenTask := module.GetTokenTask()*/
@@ -39,8 +39,8 @@ func main() {
 	
 	// Controller & Server
 	log.Debug("Creating Server")
-	controllers := module.MakeControllers(libroRepository, socioRepository, prestamoRepository)
-	sensors := []health.Sensor{libroRepository, socioRepository, prestamoRepository}
+	controllers := module.MakeControllers(libroRepository)
+	sensors := []health.Sensor{libroRepository}
 	appServer := server.NewRestServer(info, controllers, sensors)
 	defer appServer.Done()
 	appServer.Run()

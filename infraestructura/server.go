@@ -8,7 +8,6 @@ import (
 	"github.com/ant0ine/go-json-rest/rest"
 	
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/domain/casousos"
 	api2 "github.com/gdosoftware/biblioteca/infraestructura/api"
 	"github.com/gdosoftware/biblioteca/infraestructura/health"
 	"github.com/gdosoftware/biblioteca/infraestructura/helper"
@@ -45,7 +44,7 @@ func NewRestServer(info *api2.BuildInfo, controllers []Controller, sensors []hea
 	api := rest.NewApi()
 
 	stack := []rest.Middleware{
-		&AccessLogMiddleware{Logger: logger.GetDefaultLogger()},
+		&helper.AccessLogMiddleware{Logger: logger.GetDefaultLogger()},
 		&rest.TimerMiddleware{},
 		&rest.RecorderMiddleware{},
 		&rest.RecoverMiddleware{

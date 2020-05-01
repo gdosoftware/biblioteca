@@ -7,7 +7,7 @@ import (
 
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	"github.com/gdosoftware/biblioteca/infraestructura/repository/mongo"
-	"github.com/gdosoftware/biblioteca/infraestructura/api"
+	"github.com/gdosoftware/biblioteca/infraestructura/helper"
 
 	"gopkg.in/mgo.v2"
 )
@@ -75,7 +75,7 @@ func CreateLibroRepository(log logger.Logger) *repository.DBLibroRepository {
 	}
 	return repo
 }
-
+/*
 func CreateSocioRepository(log logger.Logger) *repository.DBSocioRepository {
 	collectionName := getEnvOrDefault("MONGO_SOCIO_COLLECTION", DefaultSocioCollectionName)
 	repo, err := repository.CreateDBSocioRepository(createMongoConfig(log), log, collectionName)
@@ -94,124 +94,18 @@ func CreatePrestamoRepository(log logger.Logger) *repository.DBPrestamoRepositor
 		return nil
 	}
 	return repo
-}
+}*/
 
 
-func CreateJwtDecoder() *api.JwtDecoder {
-	return action.CreateJwtDecoder(os.Getenv(JWTPublicKeyEnv))
+func CreateJwtDecoder() *helper.JwtDecoder {
+	return helper.CreateJwtDecoder(os.Getenv(JWTPublicKeyEnv))
 }
 
 func GetTokenTask() string {
 	return os.Getenv(JWTTokenTask)
 }
 
-/*
-func (s *SourceFactory) CreateComponedItemRepository() *source.ComponedRepository {
-	katalogRepo := item.CreateKatalogRepository(os.Getenv(KatalogServiceEndpointEnv))
-	priceRepo := item.CreatePriceRepository(os.Getenv(PriceServiceEndpointEnv), os.Getenv(PriceServiceNotificationEndpointEnv), os.Getenv(PriceServiceBotNotificationEndpointEnv))
-	stockRepo := item.CreateStockRepository(os.Getenv(StockServiceEndpointEnv),
-		os.Getenv(StockServiceNotificationEndpointEnv))
-	mediaRepo := item.CreateMediaRepository(os.Getenv(MediaServiceEndpointEnv))
-	creator := item.CreateItemCreator(mediaRepo, katalogRepo)
-	logisticsRepository := s.CreateLogisticsRepository()
-	repo, err := source.CreateItemRepository(katalogRepo, priceRepo, stockRepo, creator, logisticsRepository.GetDefaultWarehouse)
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating item repository")
-		return nil
-	}
-	return repo
-}
-*/
-/*
-func (s *SourceFactory) CreatePaymentMethodBinRepository() *source.configBin {
-	collectionName := helper.GetEnvOrDefault(MongoDBSKUCollectionName, DefaultSkuCollectionName)
-	repo, err := source.CreateDBSkuRepository(s.createMongoConfig(), collectionName)
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating sku repository")
-		return nil
-	}
-	return repo
-}
-*/
 
-/*
-func (s *SourceFactory) CreateMongoBasedSkuRepository() *source.DBSkuRepository {
-	collectionName := helper.GetEnvOrDefault(MongoDBSKUCollectionName, DefaultSkuCollectionName)
-	repo, err := source.CreateDBSkuRepository(s.createMongoConfig(), collectionName)
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating sku repository")
-		return nil
-	}
-	return repo
-}
-
-func (s *SourceFactory) CreateJobRepository() *source.MongoJobRepository {
-	repo, err := source.CreateMongoJobRepository(s.createMongoConfig())
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating task repository")
-		return nil
-	}
-	return repo
-}
-
-func (s *SourceFactory) CreateMongoTermsRepository() *source.DBTermsRepository {
-	repo, err := source.CreateDBDBTermsRepository(s.createMongoConfig())
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating terms repository")
-		return nil
-	}
-	return repo
-}
-
-func (s *SourceFactory) createMongoConfig() *mgo.DialInfo {
-	databaseName, dataBaseAddr := os.Getenv(MongoDBName), os.Getenv(MongoDBAddress)
-	if databaseName == "" || dataBaseAddr == "" {
-		logger.GetDefaultLogger().Fatal("Database name/address is mandatory")
-		return nil
-	}
-	return &mgo.DialInfo{
-		Addrs:    strings.Split(dataBaseAddr, ","),
-		Database: databaseName,
-	}
-}
-
-func (s *SourceFactory) CreateComponedItemRepository() *source.ComponedItemRepository {
-	katalogRepo := item.CreateKatalogRepository(os.Getenv(KatalogServiceEndpointEnv))
-	priceRepo := item.CreatePriceRepository(os.Getenv(PriceServiceEndpointEnv), os.Getenv(PriceServiceNotificationEndpointEnv), os.Getenv(PriceServiceBotNotificationEndpointEnv))
-	stockRepo := item.CreateStockRepository(os.Getenv(StockServiceEndpointEnv),
-		os.Getenv(StockServiceNotificationEndpointEnv))
-	mediaRepo := item.CreateMediaRepository(os.Getenv(MediaServiceEndpointEnv))
-	creator := item.CreateItemCreator(mediaRepo, katalogRepo)
-	logisticsRepository := s.CreateLogisticsRepository()
-	repo, err := source.CreateItemRepository(katalogRepo, priceRepo, stockRepo, creator, logisticsRepository.GetDefaultWarehouse)
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating item repository")
-		return nil
-	}
-	return repo
-}
-
-func (s *SourceFactory) CreateSellerRepository() *source.SellerRepository {
-	return source.CreateSellerRepository(os.Getenv(SellerServiceEndpointEnv), helper.GetEnvOrDefaultInt(SellerCacheRefreshInterval, 30))
-}
-
-func (s *SourceFactory) CreateJwtDecoder() *action.JwtDecoder {
-	return action.CreateJwtDecoder(os.Getenv(JWTPublicKeyEnv))
-}
-
-func (s *SourceFactory) CreateCategoryRepository() *source.CategoryRepository {
-	return source.CreateCategoryRepository(os.Getenv(KatalogServiceEndpointEnv), os.Getenv(AttributeServiceEndpointEnv))
-}
-
-func (s *SourceFactory) CreateLogisticsRepository() *source.LogisticsRepository {
-	return source.CreateLogisticsRepository(os.Getenv(LogisticsServiceEndpointEnv))
-}
-
-func (s *SourceFactory) GetTokenTask() string {
-	return os.Getenv(JWTTokenTask)
-}
-
-*/
 
 func validateEnvironmentVariables() []string {
 	var missingEnvVars []string
@@ -223,29 +117,3 @@ func validateEnvironmentVariables() []string {
 	return missingEnvVars
 }
 
-/*
-func (s *SourceFactory) CreateSmtpMailer() *source.SmtpMailer {
-	repo, err := source.NewSmtpMailer(s.createSmtpMailerConfig())
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating smtp mailer")
-		return nil
-	}
-	return repo
-}
-
-func (s *SourceFactory) createSmtpMailerConfig() *source.SmtpServerConfig {
-	smtpHostEnv, smtpPortEnv := os.Getenv(smtpHost), os.Getenv(smtpPort)
-	if smtpHostEnv == "" || smtpPortEnv == "" {
-		logger.GetDefaultLogger().Fatal("Smtp address/port is mandatory")
-		return nil
-	}
-	return &source.SmtpServerConfig{
-		Host:     smtpHostEnv,
-		Port:     smtpPortEnv,
-		Username: helper.GetEnvOrDefault(smtpUsername, ""),
-		Password: helper.GetEnvOrDefault(smtpPassword, ""),
-		Insecure: helper.GetEnvOrDefault(smtpAcceptInsecure, "false") == "true",
-		From:     helper.GetEnvOrDefault(smtpFrom, "no-responder@fravega.com"),
-	}
-}
-*/

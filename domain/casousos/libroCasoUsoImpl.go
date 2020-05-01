@@ -6,25 +6,25 @@ import (
 )
 
 type LibroCasoUsoImpl struct {
-	repo interfaces.ILibroRepository
+	Repo interfaces.ILibroRepository
 }
 
 func (r *LibroCasoUsoImpl) CreateLibro(libro *modelo.Libro) (*modelo.Libro, error) {
-	return r.repo.Create(libro)
+	return r.Repo.Create(libro)
 }
 
 func (r *LibroCasoUsoImpl) RetrieveLibro(id string) (modelo.Libro, error) {
-	return r.repo.Retrieve(id)
+	return r.Repo.Retrieve(id)
 }
 
 func (r *LibroCasoUsoImpl) UpdateLibro(id string, libro *modelo.Libro) (*modelo.Libro, error) {
-	return r.repo.Update(id, libro)
+	return r.Repo.Update(id, libro)
 }
 
 func (r *LibroCasoUsoImpl) DeleteLibro(id string) error {
-	return r.repo.Delete(id)
+	return r.Repo.Delete(id)
 }
 
 func (r *LibroCasoUsoImpl) FindAllLibro() ([]modelo.Libro, error) {
-	return r.repo.FindAll()
+	return r.Repo.FindAll()
 }

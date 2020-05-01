@@ -8,6 +8,7 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
+	"github.com/gdosoftware/biblioteca/infraestructura/helper"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	
 )
@@ -16,14 +17,14 @@ import (
 type SupportAPI struct {
 	logger logger.Logger
 	//	sellerRepository   *sourceInfra.SellerRepository
-	//jwtDecoder         *JwtDecoder
+	helper.JwtDecoder
 	restrictAccessByTC bool
 }
 
 func CreateSupportAPI() *SupportAPI {
 	return &SupportAPI{
 		logger:             logger.GetDefaultLogger(),
-		//jwtDecoder:         jwtDecoder,
+		//helper.JwtDecoder,
 		restrictAccessByTC: false,
 	}
 }
@@ -72,7 +73,7 @@ func (s *SupportAPI) getUserWithConditionalTermsVerification(r *rest.Request, ch
 		return nil, &BadRequestError{code: tokenRequired, message: "Token is required"}
 	}
 
-	username, sellerId, permissions, err := s.jwtDecoder.GetTokenAttributes(token)
+	username, sellerId, permissions, err := s.GetTokenAttributes(token)
 	if err != nil {
 		return nil, &BadRequestError{code: invalidToken, message: err.Error()}
 	}
@@ -84,7 +85,7 @@ func (s *SupportAPI) getUserWithConditionalTermsVerification(r *rest.Request, ch
 
 	logger.GetDefaultLogger().Debugf("User %v", username)
 
-	return model.NewUser(username, token, permissions), nil
+	return modelo.NewUser(username, token, permissions), nil
 }
 
 func hasPermission(permissions []string, permission string) bool {
@@ -166,27 +167,27 @@ func (s *SupportAPI) writeError(err error, w rest.ResponseWriter) {
 		badRequest := err.(*BadRequestError)
 		failed(http.StatusBadRequest, badRequest.code, err, w)
 		break
-	case *model.ValidationsError:
-		writeValidationsErrors(err.(*model.ValidationsError), w)
+	case *modelo.ValidationsError:
+		writeValidationsErrors(err.(*modelo.ValidationsError), w)
 		break
-	case *model.ItemAlreadyExistsError:
+	case *modelo.ItemAlreadyExistsError:
 		failed(http.StatusConflict, itemAlreadyExistsCode, err, w)
 		break
-	case *model.CategoryNotFoundError:
+	case *modelo.CategoryNotFoundError:
 		failed(http.StatusNotFound, categoryNotFoundCode, err, w)
 		break
-	case *model.BrandNotFoundError:
+	case *modelo.BrandNotFoundError:
 		failed(http.StatusNotFound, brandNotFoundCode, err, w)
 		break
-	case *model.JobNotFoundError:
+	case *modelo.JobNotFoundError:
 		failed(http.StatusNotFound, jobNotFoundCode, err, w)
 		break
-	case *model.LogisticsNotFoundError:
+	case *modelo.LogisticsNotFoundError:
 		failed(http.StatusConflict, logisticsNotFoundCode, err, w)
-	case *model.ForbiddenError:
+	case *modelo.ForbiddenError:
 		failed(http.StatusUnauthorized, unauthorrizedCode, err, w)
 		break
-	case *model.SignAlreadyExistsError:
+	case *modelo.SignAlreadyExistsError:
 		failed(http.StatusConflict, termsSingAlreadySigned, err, w)
 		break
 	default:

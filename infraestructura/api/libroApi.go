@@ -5,27 +5,28 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gdosoftware/biblioteca/domain/casousos"
+	"github.com/gdosoftware/biblioteca/domain/interfaces"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 )
 
 type LibroApi struct {
-	logger  logger.Logger
-	support *SupportAPI
-	caso    *casousos.LibroCasoUsoImpl
+	logger logger.Logger
+	SupportAPI
+	caso interfaces.ILibroCasoUso
 }
 
-func createLibroApi(caso *casousos.LibroCasoUsoImpl) *LibroApi {
+func CreateLibroApi(caso *casousos.LibroCasoUsoImpl) *LibroApi {
 	return &LibroApi{logger: logger.GetDefaultLogger(),
-		support: CreateSupportAPI(),
-		caso:    caso}
+		//support: CreateSupportAPI(),
+		caso: caso}
 }
 
 func (s *LibroApi) AltaLibro(w rest.ResponseWriter, r *rest.Request) {
 	defer r.Body.Close()
 
 	var toSave modelo.Libro
-	if err := s.support.readBody(&toSave, r); err != nil {
+	if err := s.readBody(&toSave, r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.WriteJson(err.Error())
 		return
@@ -34,7 +35,7 @@ func (s *LibroApi) AltaLibro(w rest.ResponseWriter, r *rest.Request) {
 	insert, err := s.caso.CreateLibro(&toSave)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err, "insert Libro": toSave}).Error("Error saving Channel Group")
-		s.support.writeError(err, w)
+		s.writeError(err, w)
 	} else {
 		w.WriteHeader(http.StatusCreated)
 		w.WriteJson(insert)
@@ -46,7 +47,7 @@ func (s *LibroApi) ModificacionLibro(w rest.ResponseWriter, r *rest.Request) {
 	defer r.Body.Close()
 
 	var toUpdate modelo.Libro
-	if err := s.support.readBody(&toUpdate, r); err != nil {
+	if err := s.readBody(&toUpdate, r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.WriteJson(err.Error())
 		return
@@ -55,7 +56,7 @@ func (s *LibroApi) ModificacionLibro(w rest.ResponseWriter, r *rest.Request) {
 	updated, err := s.caso.UpdateLibro(id, &toUpdate)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
-		s.support.writeError(err, w)
+		s.writeError(err, w)
 	} else {
 		w.WriteJson(updated)
 	}
@@ -69,7 +70,7 @@ func (s *LibroApi) BorrarLibro(w rest.ResponseWriter, r *rest.Request) {
 
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
-		s.support.writeError(err, w)
+		s.writeError(err, w)
 	} else {
 		w.WriteJson(id)
 	}
@@ -89,7 +90,7 @@ func (s *LibroApi) RecuperarLibro(w rest.ResponseWriter, r *rest.Request) {
 	item, err := s.caso.RetrieveLibro(id)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err, "id": id}).Error("Getting Channel Group by id")
-		s.support.writeError(err, w)
+		s.writeError(err, w)
 	} else {
 		w.WriteJson(item)
 	}
@@ -101,7 +102,7 @@ func (s *LibroApi) RecuperarTodosLosLibros(w rest.ResponseWriter, r *rest.Reques
 
 	bins, err := s.caso.FindAllLibro()
 	if err != nil {
-		s.support.writeError(err, w)
+		s.writeError(err, w)
 	} else {
 		w.WriteJson(bins)
 	}

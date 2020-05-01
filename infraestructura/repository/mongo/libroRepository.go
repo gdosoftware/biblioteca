@@ -5,7 +5,7 @@ import (
 
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
-
+	"github.com/gdosoftware/biblioteca/infraestructura/health"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -54,7 +54,7 @@ func (d *DBLibroRepository) Create(toSave *modelo.Libro) (*modelo.Libro, error) 
 
 }
 
-func (d *DBLibroRepository) Update(id string, toUpdate *modelo.Libro) (*model.Libro, error) {
+func (d *DBLibroRepository) Update(id string, toUpdate *modelo.Libro) (*modelo.Libro, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 

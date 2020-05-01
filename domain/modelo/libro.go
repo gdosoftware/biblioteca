@@ -7,5 +7,6 @@ type Libro struct {
 	Titulo    string        `bson:"titulo"`
 	Autor     string        `bson:"autor"`
 	Stock     int           `bson:"stock"`
-	Prestados int           `bson:"prestados"`
+	Borrowed int            `bson:"borrowed"`
+	Deleted   string        `bson:"deleted"`
 }
