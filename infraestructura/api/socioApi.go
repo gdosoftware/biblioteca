@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/gdosoftware/biblioteca/domain/interfaces"
+	"github.com/gdosoftware/biblioteca/domain/casousos"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 )
@@ -12,18 +12,18 @@ import (
 type SocioApi struct {
 	logger  logger.Logger
 	support *SupportAPI
-	caso *interfaces.ISocioCasoUso
+	caso *casousos.SocioCasoUsoImpl
 }
 
 
-func createSocioApi(logger  logger.Logger, caso *interfaces.ISocioCasoUso){
+func createSocioApi(caso *casousos.SocioCasoUsoImpl) *SocioApi{
     retrun &LSocioApi{logger :  logger.GetDefaultLogger(), 
 					support : api.CreateSupportAPI(),
 					caso: caso}
 }
 
 func (s *SocioApi) altaSocio(w rest.ResponseWriter, r *rest.Request) {
-	defer s.Body.Close()
+	defer r.Body.Close()
 
 	var toSave modelo.Socio
 	if err := s.support.readBody(&toSave, r); err != nil {
@@ -96,7 +96,7 @@ func (s *SocioApi) recuperarSocio(w rest.ResponseWriter, r *rest.Request) {
 	}
 }
 
-func (s *SocioApi) recuperarTodosLosSocios() ((w rest.ResponseWriter, r *rest.Request) {
+func (s *SocioApi) recuperarTodosLosSocios(w rest.ResponseWriter, r *rest.Request) {
 	
 	logger.GetDefaultLogger().Infof("Request to get all channel group")
 

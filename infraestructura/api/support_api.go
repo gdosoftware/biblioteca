@@ -7,11 +7,11 @@ import (
 	"strconv"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/domain/interfaces"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
+	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
+	
 )
-)
+
 
 type SupportAPI struct {
 	logger logger.Logger
@@ -53,7 +53,7 @@ func (s *SupportAPI) readBody(body interface{}, r *rest.Request) error {
 	return nil
 }
 
-func (s *SupportAPI) getUser(r *rest.Request) (*model.User, error) {
+func (s *SupportAPI) getUser(r *rest.Request) (*modelo.User, error) {
 	user, err := s.getUserWithConditionalTermsVerification(r, true)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (s *SupportAPI) getUser(r *rest.Request) (*model.User, error) {
 
 }
 
-func (s *SupportAPI) getUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*model.User, error) {
+func (s *SupportAPI) getUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*modelo.User, error) {
 	token := r.Header.Get("X-FVG-TOKEN-CORS")
 	if token == "" {
 		return nil, &BadRequestError{code: tokenRequired, message: "Token is required"}
@@ -96,7 +96,7 @@ func hasPermission(permissions []string, permission string) bool {
 	return false
 }
 
-func (s *SupportAPI) HasPermissions(u *model.User, permissions []string) bool {
+func (s *SupportAPI) HasPermissions(u *modelo.User, permissions []string) bool {
 	has := true
 	for _, p := range permissions {
 		has = has && hasPermission(u.GetPermissions(), p)
@@ -205,7 +205,7 @@ type errorResponse struct {
 	Failed interface{} `json:"error"`
 }
 
-func writeValidationsErrors(v *model.ValidationsError, w rest.ResponseWriter) {
+func writeValidationsErrors(v *modelo.ValidationsError, w rest.ResponseWriter) {
 	w.WriteHeader(http.StatusUnprocessableEntity)
 	validations := make([]validationError, 0)
 	for k, v := range v.Validations() {

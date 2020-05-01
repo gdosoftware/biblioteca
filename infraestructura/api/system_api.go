@@ -5,7 +5,7 @@ import (
 	"runtime"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"gitlab.com/fravega-it/adn/ipos/medios-de-pago/backend-medios-de-pago/infrastructure/health"
+	"github.com/gdosoftware/biblioteca/infraestructura/health"
 )
 
 type BuildInfo struct {

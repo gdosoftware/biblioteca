@@ -6,12 +6,13 @@ import (
 	"strconv"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	api2 "gitlab.com/fravega-it/adn/ipos/medios-de-pago/backend-medios-de-pago/infrastructure/api"
-	"gitlab.com/fravega-it/adn/ipos/medios-de-pago/backend-medios-de-pago/infrastructure/health"
-	"gitlab.com/fravega-it/adn/ipos/medios-de-pago/backend-medios-de-pago/infrastructure/helper"
-	"gitlab.com/fravega-it/adn/ipos/medios-de-pago/backend-medios-de-pago/infrastructure/server/controllers"
-
-	logger "github.com/fravega/go-logger/v2"
+	
+	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
+	"github.com/gdosoftware/biblioteca/domain/casousos"
+	api2 "github.com/gdosoftware/biblioteca/infraestructura/api"
+	"github.com/gdosoftware/biblioteca/infraestructura/health"
+	"github.com/gdosoftware/biblioteca/infraestructura/helper"
+	"github.com/gdosoftware/biblioteca/infraestructura/controllers"
 )
 
 const (

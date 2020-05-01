@@ -37,7 +37,7 @@ func CreateDBSocioRepository(config *mgo.DialInfo, log logger.Logger, collection
 */
 
 
-func (d *DBSocioRepository) Create(toSave *modelo.socio) (*modelo.Socio, error) {
+func (d *DBSocioRepository) Create(toSave *modelo.Socio) (*modelo.Socio, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 
