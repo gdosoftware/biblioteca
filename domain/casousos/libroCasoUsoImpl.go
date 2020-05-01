@@ -6,7 +6,7 @@ import (
 )
 
 type LibroCasoUsoImpl struct {
-	repo interfaces.ILibroRepository
+	repo *interfaces.ILibroRepository
 }
 
 func (r *LibroCasoUsoImpl) createLibro(libro *modelo.Libro) (*modelo.Libro, error) {

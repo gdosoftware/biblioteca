@@ -8,9 +8,9 @@ import (
 )
 
 type PrestamoCasoUsoImpl struct {
-	repoSocio    interfaces.ISocioRepository
-	repoLibro    interfaces.ILibroRepository
-	repoPrestamo interfaces.IPrestamoRepository
+	repoSocio    *interfaces.ISocioRepository
+	repoLibro    *interfaces.ILibroRepository
+	repoPrestamo *interfaces.IPrestamoRepository
 }
 
 func (r *PrestamoCasoUsoImpl) CreatePrestamo(socioId string, libroId string) (*modelo.Prestamo, error) {

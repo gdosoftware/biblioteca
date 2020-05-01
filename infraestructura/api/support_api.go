@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	logger "github.com/fravega/go-logger/v2"
+	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	"github.com/gdosoftware/biblioteca/domain/interfaces"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
 )
@@ -16,19 +16,28 @@ import (
 type SupportAPI struct {
 	logger logger.Logger
 	//	sellerRepository   *sourceInfra.SellerRepository
-	/jwtDecoder         *JwtDecoder
+	//jwtDecoder         *JwtDecoder
 	restrictAccessByTC bool
 }
 
+func CreateSupportAPI() *SupportAPI {
+	return &SupportAPI{
+		logger:             logger.GetDefaultLogger(),
+		//jwtDecoder:         jwtDecoder,
+		restrictAccessByTC: false,
+	}
+}
+
+/*
 func CreateSupportAPI(jwtDecoder *JwtDecoder,
 	restrictAccessByTC bool,
 ) *SupportAPI {
 	return &SupportAPI{
 		logger:             logger.GetDefaultLogger(),
-		jwtDecoder:         jwtDecoder,
+		//jwtDecoder:         jwtDecoder,
 		restrictAccessByTC: restrictAccessByTC,
 	}
-}
+}*/
 
 func (s *SupportAPI) readBody(body interface{}, r *rest.Request) error {
 	read, err := ioutil.ReadAll(r.Body)

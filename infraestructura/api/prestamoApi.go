@@ -16,8 +16,10 @@ type PrestanoApi struct {
 }
 
 
-func createPrestamoApi(logger  logger.Logger){
-    retrun &LibroApi(logger :  logger.GetDefaultLogger())
+func createPrestamoApi(logger  logger.Logger, caso *interfaces.IPrestamoCasoUso){
+    retrun &PrestamoApi{logger :  logger.GetDefaultLogger(), 
+					support : api.CreateSupportAPI(),
+					caso: caso}
 }
 
 func (s *PrestanoApi) prestarLibro(w rest.ResponseWriter, r *rest.Request) {

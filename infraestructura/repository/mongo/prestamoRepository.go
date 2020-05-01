@@ -10,14 +10,14 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type DBLibroRepository struct {
+type DBPrestamoRepository struct {
 	config         *mgo.DialInfo
 	log            logger.Logger
 	session        *mgo.Session
 	collectionName string
 }
 
-func CreateDBLibroRepository(config *mgo.DialInfo, log logger.Logger, collectionName string) (*DBLibroRepository, error) {
+func CreateDBPrestamoRepository(config *mgo.DialInfo, log logger.Logger, collectionName string) (*DBPrestamoRepository, error) {
 	if collectionName == "" {
 		return nil, errors.New("collection name is mandatory")
 	}
@@ -26,7 +26,7 @@ func CreateDBLibroRepository(config *mgo.DialInfo, log logger.Logger, collection
 	if err != nil {
 		return nil, err
 	}
-	return &DBLibroRepository{config: config, log: log, session: session, collectionName: collectionName}, nil
+	return &DBPrestamoRepository{config: config, log: log, session: session, collectionName: collectionName}, nil
 }
 /*
     Create(libro *modelo.Libro) (*modelo.Libro, error)
@@ -37,7 +37,7 @@ func CreateDBLibroRepository(config *mgo.DialInfo, log logger.Logger, collection
 */
 
 
-func (d *DBLibroRepository) Create(toSave *modelo.Libro) (*modelo.Libro, error) {
+func (d *DBPrestamoRepository) Create(toSave *modelo.Prestamo) (*modelo.Prestamo, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 
@@ -54,7 +54,7 @@ func (d *DBLibroRepository) Create(toSave *modelo.Libro) (*modelo.Libro, error) 
 
 }
 
-func (d *DBLibroRepository) Update(id string, toUpdate *modelo.Libro) (*model.Libro, error) {
+func (d *DBPrestamoRepository) Update(id string, toUpdate *modelo.Prestamo) (*model.Prestamo, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 
@@ -70,7 +70,7 @@ func (d *DBLibroRepository) Update(id string, toUpdate *modelo.Libro) (*model.Li
 	return toUpdate, nil
 }
 
-func (d *DBLibroRepository) Delete(id string) error {
+func (d *DBPrestamoRepository) Delete(id string) error {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 
@@ -88,43 +88,43 @@ func (d *DBLibroRepository) Delete(id string) error {
 	return nil
 }
 
-func (d *DBLibroRepository) Retrieve(id string) (modelo.Libro, error) {
+func (d *DBPrestamoRepository) Retrieve(id string) (modelo.Prestamo, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
-	var dbLibro modelo.Libro
-	if err := d.createQuery(sessionCopy, bson.M{"_id": bson.ObjectIdHex(id)}).One(&dbLibro); err != nil {
+	var dbPrestamoo modelo.Prestamo
+	if err := d.createQuery(sessionCopy, bson.M{"_id": bson.ObjectIdHex(id)}).One(&dbPrestamoo); err != nil {
 		d.log.WithFields(logger.Fields{"error": err}).Error("Error in query execution")
-		return dbLibro, errors.New("Error in query execution")
+		return dbPrestamoo, errors.New("Error in query execution")
 	}
 	return dbLibro, nil
 }
 
 
-func (d *DBLibroRepository) FindAll() ([]modelo.Libro, error) {
+func (d *DBPrestamoRepository) FindAll() ([]modelo.Prestamo, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
-	var dbLibro []modelo.Libro
-	if err := d.createQuery(sessionCopy, bson.M{"deleted": "false"}).All(&dbLibro); err != nil {
+	var dbPrestamo []modelo.Prestamo
+	if err := d.createQuery(sessionCopy, bson.M{"deleted": "false"}).All(&dbPrestamo); err != nil {
 		d.log.WithFields(logger.Fields{"error": err}).Error("Error in query execution")
 		return nil, errors.New("Error in query execution")
 	}
 
-	return dbLibro, nil
+	return dbPrestamo, nil
 }
 
-func (d *DBLibroRepository) createQuery(session *mgo.Session, criteria bson.M) *mgo.Query {
+func (d *DBPrestamoRepository) createQuery(session *mgo.Session, criteria bson.M) *mgo.Query {
 	return session.DB(d.config.Database).C(d.collectionName).Find(criteria)
 }
 
-func (d *DBLibroRepository) Name() string {
-	return "MongoDBLibroRepository"
+func (d *DBPrestamoRepository) Name() string {
+	return "MongoDBPrestamoRepository"
 }
 
-func (d *DBLibroRepository) Health() error {
+func (d *DBPrestamoRepository) Health() error {
 	return d.session.Ping()
 }
 
-func (d *DBLibroRepository) Stats() interface{} {
+func (d *DBPrestamoRepository) Stats() interface{} {
 	buildInfo, _ := d.session.BuildInfo()
 	return health.RepoStats{
 		BuildInfo:   buildInfo,

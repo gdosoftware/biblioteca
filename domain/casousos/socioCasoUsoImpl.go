@@ -6,7 +6,7 @@ import (
 )
 
 type SocioCasoUsoImpl struct {
-	repo interfaces.ISocioRepository
+	repo *interfaces.ISocioRepository
 }
 
 func (r *SocioCasoUsoImpl) createSocio(socio *modelo.Socio) (*modelo.Socio, error) {

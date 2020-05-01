@@ -5,7 +5,6 @@ import (
 
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
-	"gitlab.com/gdosoftware/biblioteca/infraestructura/health"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

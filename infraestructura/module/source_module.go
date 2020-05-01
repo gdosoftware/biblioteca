@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	logger "github.com/fravega/go-logger/v2"
+	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	"github.com/gdosoftware/biblioteca/infraestructura/repository/mongo"
 	"github.com/gdosoftware/biblioteca/infraestructura/api"
 

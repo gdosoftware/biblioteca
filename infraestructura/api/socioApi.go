@@ -16,8 +16,10 @@ type SocioApi struct {
 }
 
 
-func createSocioApi(logger  logger.Logger){
-    retrun &LibroApi(logger :  logger.GetDefaultLogger())
+func createSocioApi(logger  logger.Logger, caso *interfaces.ISocioCasoUso){
+    retrun &LSocioApi{logger :  logger.GetDefaultLogger(), 
+					support : api.CreateSupportAPI(),
+					caso: caso}
 }
 
 func (s *SocioApi) altaSocio(w rest.ResponseWriter, r *rest.Request) {

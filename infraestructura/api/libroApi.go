@@ -16,8 +16,10 @@ type LibroApi struct {
 }
 
 
-func createLibroApi(logger  logger.Logger){
-    retrun &LibroApi(logger :  logger.GetDefaultLogger())
+func createLibroApi(caso *interfaces.ILibroCasoUso){
+	retrun &LibroApi{logger :  logger.GetDefaultLogger(), 
+					 support : api.CreateSupportAPI(),
+					 caso: caso}
 }
 
 func (s *LibroApi) AltaLibro(w rest.ResponseWriter, r *rest.Request) {

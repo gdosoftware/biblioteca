@@ -32,7 +32,7 @@ type RestServer struct {
 
 func NewRestServer(info *api2.BuildInfo, controllers []Controller, sensors []health.Sensor) *RestServer {
 
-	apiName := "/mediosdepago/api/v1"
+	apiName := "/biblioteca/api/v1"
 	port, err := strconv.Atoi(helper.GetEnvOrDefault(PortEnvironmentName, strconv.Itoa(DefaultPortValue)))
 	if err != nil {
 		port = DefaultPortValue
@@ -106,7 +106,7 @@ func systemApi(info *api2.BuildInfo, statusMw *rest.StatusMiddleware, sensors []
 
 	api.SetApp(router)
 
-	http.Handle("/mediosdepago/system/", http.StripPrefix("/mediosdepago/system", api.MakeHandler()))
+	http.Handle("/biblioteca/system/", http.StripPrefix("/biblioteca/system", api.MakeHandler()))
 
 	return nil
 }
