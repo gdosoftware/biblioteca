@@ -8,7 +8,7 @@ import (
 	"github.com/ant0ine/go-json-rest/rest"
 	
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	api2 "github.com/gdosoftware/biblioteca/infraestructura/api"
+	api2 "github.com/gdosoftware/biblioteca/infraestructura/http"
 	"github.com/gdosoftware/biblioteca/infraestructura/health"
 	"github.com/gdosoftware/biblioteca/infraestructura/helper"
 	"github.com/gdosoftware/biblioteca/infraestructura/controllers"

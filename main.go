@@ -3,7 +3,7 @@ package main
 import (
     
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/infraestructura/api"
+	"github.com/gdosoftware/biblioteca/infraestructura/http"
     "github.com/gdosoftware/biblioteca/infraestructura/module"
     "github.com/gdosoftware/biblioteca/infraestructura/health"
 	"github.com/gdosoftware/biblioteca/infraestructura"
@@ -20,7 +20,7 @@ func main() {
 	log := logger.GetDefaultLogger()
 	log.Infof("############ Starting Medio de pago Service %v ############", AppVersion)
 
-	info := api.NewBuildInfo(AppName, AppVersion)
+	info := http.NewBuildInfo(AppName, AppVersion)
 
 	err := module.NewSourceFactory()
 	if err != nil {

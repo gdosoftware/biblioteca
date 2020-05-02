@@ -1,22 +1,22 @@
 package controllers
 
-import("github.com/gdosoftware/biblioteca/infraestructura/api"
+import("github.com/gdosoftware/biblioteca/infraestructura/http"
 		"github.com/ant0ine/go-json-rest/rest")
 
 type SocioController struct {
-	SocioApi        *api.SocioApi
+	SocioHttp       *http.SocioHttp
 	routes          []*rest.Route
 }
 
-func CreateSocioController(api *api.SocioApi) *SocioController {
-	controller := SocioController{SocioApi: api}
+func CreateSocioController(http *http.SocioHttp) *SocioController {
+	controller := SocioController{SocioHttp: http}
 	routes := []*rest.Route{
-		rest.Get("/socio/#id", api.RecuperarSocio),
-		rest.Get("/socio", api.RecuperarTodosLosSocios),
+		rest.Get("/socio/#id", http.RecuperarSocio),
+		rest.Get("/socio", http.RecuperarTodosLosSocios),
 
-		rest.Post("/socio", api.AltaSocio),
-		rest.Put("/socio/#id", api.ModificacionSocio),
-		rest.Delete("/socio/#id", api.BorrarSocio),
+		rest.Post("/socio", http.AltaSocio),
+		rest.Put("/socio/#id", http.ModificacionSocio),
+		rest.Delete("/socio/#id", http.BorrarSocio),
 	}
 	controller.routes = routes
 	return &controller

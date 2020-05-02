@@ -1,22 +1,22 @@
 package controllers
 
-import("github.com/gdosoftware/biblioteca/infraestructura/api"
+import("github.com/gdosoftware/biblioteca/infraestructura/http"
 		"github.com/ant0ine/go-json-rest/rest")
 
 type LibroController struct {
-	LibroApi       *api.LibroApi
+	LibroHttp       *http.LibroHttp
 	routes          []*rest.Route
 }
 
-func CreateLibroController(api *api.LibroApi) *LibroController {
-	controller := LibroController{LibroApi: api}
+func CreateLibroController(http *http.LibroHttp) *LibroController {
+	controller := LibroController{LibroHttp: http}
 	routes := []*rest.Route{
-		rest.Get("/libro/#id", api.RecuperarLibro),
-		rest.Get("/libro", api.RecuperarTodosLosLibros),
+		rest.Get("/libro/#id", http.RecuperarLibro),
+		rest.Get("/libro", http.RecuperarTodosLosLibros),
 
-		rest.Post("/libro", api.AltaLibro),
-		rest.Put("/libro/#id", api.ModificacionLibro),
-		rest.Delete("/libro/#id", api.BorrarLibro),
+		rest.Post("/libro", http.AltaLibro),
+		rest.Put("/libro/#id", http.ModificacionLibro),
+		rest.Delete("/libro/#id", http.BorrarLibro),
 	}
 	controller.routes = routes
 	return &controller
