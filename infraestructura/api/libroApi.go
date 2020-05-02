@@ -18,7 +18,6 @@ type LibroApi struct {
 
 func CreateLibroApi(caso *casousos.LibroCasoUsoImpl) *LibroApi {
 	return &LibroApi{logger: logger.GetDefaultLogger(),
-		//support: CreateSupportAPI(),
 		caso: caso}
 }
 

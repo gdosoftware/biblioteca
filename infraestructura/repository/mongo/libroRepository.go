@@ -28,14 +28,6 @@ func CreateDBLibroRepository(config *mgo.DialInfo, log logger.Logger, collection
 	}
 	return &DBLibroRepository{config: config, log: log, session: session, collectionName: collectionName}, nil
 }
-/*
-    Create(libro *modelo.Libro) (*modelo.Libro, error)
-	Update(id string, libro *modelo.Libro) (*modelo.Libro, error)
-	Retrieve(id string) (modelo.Libro, error)
-	Delete(id string) error
-	FindAll() ([]modelo.Libro, error)
-*/
-
 
 func (d *DBLibroRepository) Create(toSave *modelo.Libro) (*modelo.Libro, error) {
 	sessionCopy := d.session.Copy()

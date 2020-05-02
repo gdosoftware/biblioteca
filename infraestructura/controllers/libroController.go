@@ -4,7 +4,7 @@ import("github.com/gdosoftware/biblioteca/infraestructura/api"
 		"github.com/ant0ine/go-json-rest/rest")
 
 type LibroController struct {
-	LibroApi *api.LibroApi
+	LibroApi       *api.LibroApi
 	routes          []*rest.Route
 }
 
