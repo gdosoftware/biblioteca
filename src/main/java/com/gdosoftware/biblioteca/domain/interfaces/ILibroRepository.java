@@ -10,16 +10,17 @@ import java.util.List;
 
 /**
  *
- * @author Dani
- * 
- * type ILibroRepository interface{
- * 
- *  create(libro *Libro) (*modelo.Libro,error)
- *  update(id number, libro *Libro) (*modelo.Libro,error)
- *  retrieve(id number) (modelo.Libro,error)
- *  delete (id number) error
- *  findAll() ([]modelo.Libro, error)
- * }
+ package interfaces
+
+import "github.com/gdosoftware/biblioteca/domain/modelo"
+
+type ILibroRepository interface {
+	Create(libro *modelo.Libro) (*modelo.Libro, error)
+	Update(id string, libro *modelo.Libro) (*modelo.Libro, error)
+	Retrieve(id string) (modelo.Libro, error)
+	Delete(id string) error
+	FindAll() ([]modelo.Libro, error)
+}
  */
 public interface ILibroRepository {
     public Libro create(Libro libro);
