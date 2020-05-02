@@ -9,6 +9,10 @@ type LibroCasoUsoImpl struct {
 	Repo interfaces.ILibroRepository
 }
 
+func CreateLibroCasoUsoImpl(repo interfaces.ILibroRepository) *LibroCasoUsoImpl{
+	return &LibroCasoUsoImpl{Repo:repo}
+}
+
 func (r *LibroCasoUsoImpl) CreateLibro(libro *modelo.Libro) (*modelo.Libro, error) {
 	return r.Repo.Create(libro)
 }

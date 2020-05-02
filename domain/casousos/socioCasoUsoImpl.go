@@ -9,6 +9,10 @@ type SocioCasoUsoImpl struct {
 	Repo interfaces.ISocioRepository
 }
 
+func CreateSocioCasoUsoImpl(repo interfaces.ISocioRepository) *SocioCasoUsoImpl{
+	return &SocioCasoUsoImpl{Repo:repo}
+}
+
 func (r *SocioCasoUsoImpl) CreateSocio(socio *modelo.Socio) (*modelo.Socio, error) {
 	return r.Repo.Create(socio)
 }

@@ -21,10 +21,10 @@ func MakeControllers(
 }
 
 func createLibroApi(repo interfaces.ILibroRepository) *api.LibroApi{
-   return api.CreateLibroApi(&casousos.LibroCasoUsoImpl{Repo:repo})
+   return api.CreateLibroApi(casousos.CreateLibroCasoUsoImpl(repo))
 }
 
 func createSocioApi(repo interfaces.ISocioRepository) *api.SocioApi{
-	return api.CreateSocioApi(&casousos.SocioCasoUsoImpl{Repo:repo})
+	return api.CreateSocioApi(casousos.CreateSocioCasoUsoImpl(repo))
  }
 
