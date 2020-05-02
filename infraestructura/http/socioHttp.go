@@ -7,18 +7,20 @@ import (
 	"github.com/gdosoftware/biblioteca/domain/casousos"
 	"github.com/gdosoftware/biblioteca/domain/interfaces"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
+	"github.com/gdosoftware/biblioteca/infraestructura/helper"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 )
 
 type SocioHttp struct {
 	logger  logger.Logger
-	SupportHttp
+	support *helper.SupportHttp
 	caso interfaces.ISocioCasoUso
 }
 
 
 func CreateSocioHttp(caso *casousos.SocioCasoUsoImpl) *SocioHttp{
-    return &SocioHttp{logger :  logger.GetDefaultLogger(), 
+	return &SocioHttp{logger :  logger.GetDefaultLogger(), 
+					support : helper.CreateSupportHttp(false),
 					caso: caso}
 }
 
@@ -26,7 +28,7 @@ func (s *SocioHttp) AltaSocio(w rest.ResponseWriter, r *rest.Request) {
 	defer r.Body.Close()
 
 	var toSave modelo.Socio
-	if err := s.readBody(&toSave, r); err != nil {
+	if err := s.support.ReadBody(&toSave, r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.WriteJson(err.Error())
 		return
@@ -35,7 +37,7 @@ func (s *SocioHttp) AltaSocio(w rest.ResponseWriter, r *rest.Request) {
 	insert, err := s.caso.CreateSocio(&toSave)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err, "insert Libro": insert}).Error("Error saving Channel Group")
-		s.writeError(err, w)
+		s.support.WriteError(err, w)
 	} else {
 		w.WriteHeader(http.StatusCreated)
 		w.WriteJson(insert)
@@ -47,7 +49,7 @@ func (s *SocioHttp) ModificacionSocio(w rest.ResponseWriter, r *rest.Request) {
 	defer r.Body.Close()
 	
 	var toUpdate modelo.Socio
-	if err := s.readBody(&toUpdate, r); err != nil {
+	if err := s.support.ReadBody(&toUpdate, r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.WriteJson(err.Error())
 		return
@@ -56,7 +58,7 @@ func (s *SocioHttp) ModificacionSocio(w rest.ResponseWriter, r *rest.Request) {
 	updated, err := s.caso.UpdateSocio(id, &toUpdate)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
-		s.writeError(err, w)
+		s.support.WriteError(err, w)
 	} else {
 		w.WriteJson(updated)
 	}
@@ -70,7 +72,7 @@ func (s *SocioHttp) BorrarSocio(w rest.ResponseWriter, r *rest.Request) {
 
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error updating item")
-		s.writeError(err, w)
+		s.support.WriteError(err, w)
 	} else {
 		w.WriteJson(id)
 	}
@@ -90,7 +92,7 @@ func (s *SocioHttp) RecuperarSocio(w rest.ResponseWriter, r *rest.Request) {
 	item, err := s.caso.RetrieveSocio(id)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err, "id": id}).Error("Getting Channel Group by id")
-		s.writeError(err, w)
+		s.support.WriteError(err, w)
 	} else {
 		w.WriteJson(item)
 	}
@@ -103,7 +105,7 @@ func (s *SocioHttp) RecuperarTodosLosSocios(w rest.ResponseWriter, r *rest.Reque
 	
 	socios, err := s.caso.FindAllSocio()
 	if err != nil {
-		s.writeError(err, w)
+		s.support.WriteError(err, w)
 	} else {
 		w.WriteJson(socios)
 	}

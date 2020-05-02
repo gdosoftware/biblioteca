@@ -1,4 +1,4 @@
-package http
+package helper
 
 import (
 	"encoding/json"
@@ -8,7 +8,6 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/gdosoftware/biblioteca/domain/modelo"
-	"github.com/gdosoftware/biblioteca/infraestructura/helper"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	
 )
@@ -16,16 +15,14 @@ import (
 
 type SupportHttp struct {
 	logger logger.Logger
-	//	sellerRepository   *sourceInfra.SellerRepository
-	helper.JwtDecoder
+	JwtDecoder
 	restrictAccessByTC bool
 }
 
-func CreateSupportHttp() *SupportHttp {
+func CreateSupportHttp(restrictAccessByTC bool) *SupportHttp {
 	return &SupportHttp{
 		logger:             logger.GetDefaultLogger(),
-		//helper.JwtDecoder,
-		restrictAccessByTC: false,
+		restrictAccessByTC: restrictAccessByTC,
 	}
 }
 
@@ -40,7 +37,7 @@ func CreateSupportHttp(jwtDecoder *JwtDecoder,
 	}
 }*/
 
-func (s *SupportHttp) readBody(body interface{}, r *rest.Request) error {
+func (s *SupportHttp) ReadBody(body interface{}, r *rest.Request) error {
 	read, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error while reading body")
@@ -54,12 +51,12 @@ func (s *SupportHttp) readBody(body interface{}, r *rest.Request) error {
 	return nil
 }
 
-func (s *SupportHttp) getUser(r *rest.Request) (*modelo.User, error) {
-	user, err := s.getUserWithConditionalTermsVerification(r, true)
+func (s *SupportHttp) GetUser(r *rest.Request) (*modelo.User, error) {
+	user, err := s.GetUserWithConditionalTermsVerification(r, true)
 	if err != nil {
 		return nil, err
 	}
-	if hasPermission(user.GetPermissions(), PermissionTermsSign) {
+	if HasPermission(user.GetPermissions(), PermissionTermsSign) {
 		return nil, &BadRequestError{code: termsSingPending, message: "Terminos y condiciones no firmados"}
 	}
 
@@ -67,7 +64,7 @@ func (s *SupportHttp) getUser(r *rest.Request) (*modelo.User, error) {
 
 }
 
-func (s *SupportHttp) getUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*modelo.User, error) {
+func (s *SupportHttp) GetUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*modelo.User, error) {
 	token := r.Header.Get("X-FVG-TOKEN-CORS")
 	if token == "" {
 		return nil, &BadRequestError{code: tokenRequired, message: "Token is required"}
@@ -78,7 +75,7 @@ func (s *SupportHttp) getUserWithConditionalTermsVerification(r *rest.Request, c
 		return nil, &BadRequestError{code: invalidToken, message: err.Error()}
 	}
 	impersonatedSellerId := r.Header.Get("X-FVG-SELLER-ID")
-	if impersonatedSellerId != "" && hasPermission(permissions, PermissionImpersonate) {
+	if impersonatedSellerId != "" && HasPermission(permissions, PermissionImpersonate) {
 		sellerId = impersonatedSellerId
 		logger.GetDefaultLogger().Debugf("Seller impersonated to %v by %f", sellerId, username)
 	}
@@ -88,7 +85,7 @@ func (s *SupportHttp) getUserWithConditionalTermsVerification(r *rest.Request, c
 	return modelo.NewUser(username, token, permissions), nil
 }
 
-func hasPermission(permissions []string, permission string) bool {
+func HasPermission(permissions []string, permission string) bool {
 	for _, p := range permissions {
 		if p == permission {
 			return true
@@ -100,12 +97,12 @@ func hasPermission(permissions []string, permission string) bool {
 func (s *SupportHttp) HasPermissions(u *modelo.User, permissions []string) bool {
 	has := true
 	for _, p := range permissions {
-		has = has && hasPermission(u.GetPermissions(), p)
+		has = has && HasPermission(u.GetPermissions(), p)
 	}
 	return has
 }
 
-func (s *SupportHttp) getPage(r *rest.Request, limit bool) (int, int) {
+func (s *SupportHttp) GetPage(r *rest.Request, limit bool) (int, int) {
 	pageParam := r.URL.Query().Get("page")
 	sizeParam := r.URL.Query().Get("size")
 	page, err := strconv.Atoi(pageParam)
@@ -161,7 +158,7 @@ const (
 	PermissionTermsSign     = "terms.write"
 )
 
-func (s *SupportHttp) writeError(err error, w rest.ResponseWriter) {
+func (s *SupportHttp) WriteError(err error, w rest.ResponseWriter) {
 	switch err.(type) {
 	case *BadRequestError:
 		badRequest := err.(*BadRequestError)
@@ -196,26 +193,26 @@ func (s *SupportHttp) writeError(err error, w rest.ResponseWriter) {
 	}
 }
 
-type validationError struct {
+type ValidationError struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`
 }
 
-type errorResponse struct {
+type ErrorResponse struct {
 	Code   string      `json:"code"`
 	Failed interface{} `json:"error"`
 }
 
 func writeValidationsErrors(v *modelo.ValidationsError, w rest.ResponseWriter) {
 	w.WriteHeader(http.StatusUnprocessableEntity)
-	validations := make([]validationError, 0)
+	validations := make([]ValidationError, 0)
 	for k, v := range v.Validations() {
-		validations = append(validations, validationError{
+		validations = append(validations, ValidationError{
 			Field:   k,
 			Message: v,
 		})
 	}
-	response := errorResponse{
+	response := ErrorResponse{
 		Code:   validationCode,
 		Failed: validations,
 	}
@@ -224,7 +221,7 @@ func writeValidationsErrors(v *modelo.ValidationsError, w rest.ResponseWriter) {
 
 func failed(responseCode int, code string, v error, w rest.ResponseWriter) {
 	w.WriteHeader(responseCode)
-	response := errorResponse{
+	response := ErrorResponse{
 		Code:   code,
 		Failed: v.Error(),
 	}
