@@ -12,7 +12,7 @@ import (
 
 type LibroHttp struct {
 	logger logger.Logger
-	SupportAPI
+	SupportHttp
 	caso interfaces.ILibroCasoUso
 }
 

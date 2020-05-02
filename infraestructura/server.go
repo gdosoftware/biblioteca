@@ -94,7 +94,7 @@ func makeRouterForControllers(controllers []Controller) (rest.App, error) {
 
 // Adds the endpoints for the System controller
 func systemApi(info *api2.BuildInfo, statusMw *rest.StatusMiddleware, sensors []health.Sensor) error {
-	systemApi := api2.NewSystemAPI(info, statusMw, sensors...)
+	systemApi := api2.NewSystemStatusHttp(info, statusMw, sensors...)
 	systemStat := controllers.NewSystemController(systemApi)
 
 	api := rest.NewApi()

@@ -6,12 +6,12 @@ import (
 )
 
 type SystemController struct {
-	sysStatusAPI *http.SysStatusAPI
+	SystemStatusHttp *http.SystemStatusHttp
 	routes       []*rest.Route
 }
 
-func NewSystemController(http *http.SysStatusAPI) *SystemController {
-	controller := SystemController{sysStatusAPI: http}
+func NewSystemController(http *http.SystemStatusHttp) *SystemController {
+	controller := SystemController{SystemStatusHttp: http}
 	routes := []*rest.Route{
 		rest.Get("/info", http.Info),
 		rest.Get("/stats", http.Status),

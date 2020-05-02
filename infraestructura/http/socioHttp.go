@@ -12,7 +12,7 @@ import (
 
 type SocioHttp struct {
 	logger  logger.Logger
-	SupportAPI
+	SupportHttp
 	caso interfaces.ISocioCasoUso
 }
 

@@ -14,15 +14,15 @@ import (
 )
 
 
-type SupportAPI struct {
+type SupportHttp struct {
 	logger logger.Logger
 	//	sellerRepository   *sourceInfra.SellerRepository
 	helper.JwtDecoder
 	restrictAccessByTC bool
 }
 
-func CreateSupportAPI() *SupportAPI {
-	return &SupportAPI{
+func CreateSupportHttp() *SupportHttp {
+	return &SupportHttp{
 		logger:             logger.GetDefaultLogger(),
 		//helper.JwtDecoder,
 		restrictAccessByTC: false,
@@ -30,17 +30,17 @@ func CreateSupportAPI() *SupportAPI {
 }
 
 /*
-func CreateSupportAPI(jwtDecoder *JwtDecoder,
+func CreateSupportHttp(jwtDecoder *JwtDecoder,
 	restrictAccessByTC bool,
-) *SupportAPI {
-	return &SupportAPI{
+) *SupportHttp {
+	return &SupportHttp{
 		logger:             logger.GetDefaultLogger(),
 		//jwtDecoder:         jwtDecoder,
 		restrictAccessByTC: restrictAccessByTC,
 	}
 }*/
 
-func (s *SupportAPI) readBody(body interface{}, r *rest.Request) error {
+func (s *SupportHttp) readBody(body interface{}, r *rest.Request) error {
 	read, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		s.logger.WithFields(logger.Fields{"error": err}).Error("Error while reading body")
@@ -54,7 +54,7 @@ func (s *SupportAPI) readBody(body interface{}, r *rest.Request) error {
 	return nil
 }
 
-func (s *SupportAPI) getUser(r *rest.Request) (*modelo.User, error) {
+func (s *SupportHttp) getUser(r *rest.Request) (*modelo.User, error) {
 	user, err := s.getUserWithConditionalTermsVerification(r, true)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (s *SupportAPI) getUser(r *rest.Request) (*modelo.User, error) {
 
 }
 
-func (s *SupportAPI) getUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*modelo.User, error) {
+func (s *SupportHttp) getUserWithConditionalTermsVerification(r *rest.Request, checkTerms bool) (*modelo.User, error) {
 	token := r.Header.Get("X-FVG-TOKEN-CORS")
 	if token == "" {
 		return nil, &BadRequestError{code: tokenRequired, message: "Token is required"}
@@ -97,7 +97,7 @@ func hasPermission(permissions []string, permission string) bool {
 	return false
 }
 
-func (s *SupportAPI) HasPermissions(u *modelo.User, permissions []string) bool {
+func (s *SupportHttp) HasPermissions(u *modelo.User, permissions []string) bool {
 	has := true
 	for _, p := range permissions {
 		has = has && hasPermission(u.GetPermissions(), p)
@@ -105,7 +105,7 @@ func (s *SupportAPI) HasPermissions(u *modelo.User, permissions []string) bool {
 	return has
 }
 
-func (s *SupportAPI) getPage(r *rest.Request, limit bool) (int, int) {
+func (s *SupportHttp) getPage(r *rest.Request, limit bool) (int, int) {
 	pageParam := r.URL.Query().Get("page")
 	sizeParam := r.URL.Query().Get("size")
 	page, err := strconv.Atoi(pageParam)
@@ -161,7 +161,7 @@ const (
 	PermissionTermsSign     = "terms.write"
 )
 
-func (s *SupportAPI) writeError(err error, w rest.ResponseWriter) {
+func (s *SupportHttp) writeError(err error, w rest.ResponseWriter) {
 	switch err.(type) {
 	case *BadRequestError:
 		badRequest := err.(*BadRequestError)
