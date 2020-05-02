@@ -10,27 +10,21 @@ import (
 
 func MakeControllers(
 	iLibroRepository interfaces.ILibroRepository,
-	//iSocioRepository *ISocioRepository,
-	//iPrestamoRepository *IPrestamoRepository
+	iSocioRepository interfaces.ISocioRepository,
 	
 ) []server.Controller {
 	
 	libroController := controllers.CreateLibroController(createLibroApi(iLibroRepository))
-	//SocioController := controllers.CreateSocioController(createSocioApi(iSocioRepository))
-	//prestamoController := controllers.CreatePrestamoController(createPrestamoApi(iPrestamoRepository))
+	socioController := controllers.CreateSocioController(createSocioApi(iSocioRepository))
 
-	return []server.Controller{libroController}
+	return []server.Controller{libroController, socioController}
 }
 
 func createLibroApi(repo interfaces.ILibroRepository) *api.LibroApi{
    return api.CreateLibroApi(&casousos.LibroCasoUsoImpl{Repo:repo})
 }
 
-/*func createSocioApi(repo *ISocioRepository) *SocioApi{
-	return api.createSocioApi(&SocioCasoUsoImpl{repo:repo})
+func createSocioApi(repo interfaces.ISocioRepository) *api.SocioApi{
+	return api.CreateSocioApi(&casousos.SocioCasoUsoImpl{Repo:repo})
  }
-
- func createPrestamoApi(repo *IPrestamoRepository) *PrestamoApi{
-	return api.createPrestamoApi(&PrestamoCasoUsoImpl{repo:repo})
- }*/
 

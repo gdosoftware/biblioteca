@@ -12,7 +12,7 @@ func CreateLibroController(api *api.LibroApi) *LibroController {
 	controller := LibroController{LibroApi: api}
 	routes := []*rest.Route{
 		rest.Get("/libro/#id", api.RecuperarLibro),
-		rest.Get("/libro/", api.RecuperarTodosLosLibros),
+		rest.Get("/libro", api.RecuperarTodosLosLibros),
 
 		rest.Post("/libro", api.AltaLibro),
 		rest.Put("/libro/#id", api.ModificacionLibro),

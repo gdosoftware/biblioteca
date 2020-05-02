@@ -29,8 +29,7 @@ func main() {
 
     // Repositorios
     libroRepository := module.CreateLibroRepository(log)
-  //  socioRepository := module.CreateSocioRepository(log)
-   // prestamoRepository := module.CreatePrestamoRepository(log)
+    socioRepository := module.CreateSocioRepository(log)
 	
 	/*	jwtDecoder := module.CreateJwtDecoder()
 		jwtTokenTask := module.GetTokenTask()*/
@@ -39,7 +38,7 @@ func main() {
 	
 	// Controller & Server
 	log.Debug("Creating Server")
-	controllers := module.MakeControllers(libroRepository)
+	controllers := module.MakeControllers(libroRepository, socioRepository)
 	sensors := []health.Sensor{libroRepository}
 	appServer := server.NewRestServer(info, controllers, sensors)
 	defer appServer.Done()

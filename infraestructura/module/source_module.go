@@ -18,7 +18,6 @@ const (
 	// Environment
 	MongoDBBLibroCollectionName = "MONGO_LIBRO_COLLECTION"
 	MongoDBSocioCollectionName = "MONGO_SOCIO_COLLECTION"
-	MongoDBPrestamoCollectionName = "MONGO_PRESTAMO_COLLECTION"
 	
 	MongoDBName                           = "MONGO_DATABASE_NAME"
 	MongoDBAddress                        = "MONGO_DATABASE_ADDR"
@@ -36,7 +35,6 @@ var mandatoryEnvironmentVariables = []string{
 
 const DefaultLibroCollectionName = "libro"
 const DefaultSocioCollectionName = "socio"
-const DefaultPrestamoCollectionName = "prestamo"
 
 
 func NewSourceFactory() error {
@@ -75,7 +73,7 @@ func CreateLibroRepository(log logger.Logger) *repository.DBLibroRepository {
 	}
 	return repo
 }
-/*
+
 func CreateSocioRepository(log logger.Logger) *repository.DBSocioRepository {
 	collectionName := getEnvOrDefault("MONGO_SOCIO_COLLECTION", DefaultSocioCollectionName)
 	repo, err := repository.CreateDBSocioRepository(createMongoConfig(log), log, collectionName)
@@ -86,15 +84,7 @@ func CreateSocioRepository(log logger.Logger) *repository.DBSocioRepository {
 	return repo
 }
 
-func CreatePrestamoRepository(log logger.Logger) *repository.DBPrestamoRepository {
-	collectionName := getEnvOrDefault("MONGO_PRESTAMO_COLLECTION", DefaultPrestamoCollectionName)
-	repo, err := repository.CreateDBPrestamoRepository(createMongoConfig(log), log, collectionName)
-	if err != nil {
-		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err}).Fatal("Error while creating bin repository")
-		return nil
-	}
-	return repo
-}*/
+
 
 
 func CreateJwtDecoder() *helper.JwtDecoder {

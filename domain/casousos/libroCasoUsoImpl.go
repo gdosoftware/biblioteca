@@ -28,3 +28,17 @@ func (r *LibroCasoUsoImpl) DeleteLibro(id string) error {
 func (r *LibroCasoUsoImpl) FindAllLibro() ([]modelo.Libro, error) {
 	return r.Repo.FindAll()
 }
+
+/*
+var libro LibroCasoUsoImpl
+
+libro = LibroCasoUsoImpl {Repo : LibroRepositoryImpl}
+libro.CreateLIbro
+	 .RetrieveLibro
+	 .UpdateLibro
+	 .DelteLibro
+	 .FindAllLibro
+
+func(l IlibroCasouso)
+
+*/
