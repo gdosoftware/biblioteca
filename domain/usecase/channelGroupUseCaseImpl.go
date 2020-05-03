@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/gdosoftware/biblioteca/domain/interfaces"
-	"github.com/gdosoftware/biblioteca/domain/model"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/interfaces"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/model"
 )
 
 type ChannelGroupUseCaseImpl struct {

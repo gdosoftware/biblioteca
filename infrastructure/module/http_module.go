@@ -1,11 +1,11 @@
 package module
 
 import (
-	"github.com/gdosoftware/biblioteca/infrastructure/http"
-	"github.com/gdosoftware/biblioteca/infrastructure/controllers"
-	"github.com/gdosoftware/biblioteca/infrastructure"
-	"github.com/gdosoftware/biblioteca/domain/interfaces"
-	"github.com/gdosoftware/biblioteca/domain/usecase"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/http"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/controllers"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/interfaces"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/usecase"
 )
 
 func MakeControllers(

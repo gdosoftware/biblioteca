@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/gdosoftware/biblioteca/domain/model"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/model"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 	
 )

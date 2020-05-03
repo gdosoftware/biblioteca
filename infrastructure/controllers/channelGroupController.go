@@ -1,6 +1,6 @@
 package controllers
 
-import("github.com/gdosoftware/biblioteca/infrastructure/http"
+import("gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/http"
 		"github.com/ant0ine/go-json-rest/rest")
 
 type ChannelGroupController struct {

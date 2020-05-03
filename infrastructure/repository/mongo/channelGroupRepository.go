@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/domain/model"
-	"github.com/gdosoftware/biblioteca/infrastructure/health"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/model"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/health"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )

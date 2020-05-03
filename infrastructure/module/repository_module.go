@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/infrastructure/repository/mongo"
-	"github.com/gdosoftware/biblioteca/infrastructure/helper"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/repository/mongo"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/helper"
 
 	"gopkg.in/mgo.v2"
 )

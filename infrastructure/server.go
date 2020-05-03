@@ -8,10 +8,10 @@ import (
 	"github.com/ant0ine/go-json-rest/rest"
 	
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	api2 "github.com/gdosoftware/biblioteca/infrastructure/http"
-	"github.com/gdosoftware/biblioteca/infrastructure/health"
-	"github.com/gdosoftware/biblioteca/infrastructure/helper"
-	"github.com/gdosoftware/biblioteca/infrastructure/controllers"
+	api2 "gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/http"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/health"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/helper"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/controllers"
 )
 
 const (
@@ -32,14 +32,14 @@ type RestServer struct {
 
 func NewRestServer(info *api2.BuildInfo, controllers []Controller, sensors []health.Sensor) *RestServer {
 
-	apiName := "/biblioteca/api/v1"
+	apiName := "/agrupaciones/api/v1"
 	port, err := strconv.Atoi(helper.GetEnvOrDefault(PortEnvironmentName, strconv.Itoa(DefaultPortValue)))
 	if err != nil {
 		port = DefaultPortValue
 		logger.GetDefaultLogger().WithFields(logger.Fields{"error": err, "usingPort": DefaultPortValue}).Warn("Couldn't not use specified port, going to use default one: 9000")
 	}
 
-	logger.GetDefaultLogger().Debug("####### Configuring Medio de Pago Service Module #######")
+	logger.GetDefaultLogger().Debug("####### Configuring Agrupaciones Service Module #######")
 
 	api := rest.NewApi()
 
@@ -106,7 +106,7 @@ func systemApi(info *api2.BuildInfo, statusMw *rest.StatusMiddleware, sensors []
 
 	api.SetApp(router)
 
-	http.Handle("/biblioteca/system/", http.StripPrefix("/biblioteca/system", api.MakeHandler()))
+	http.Handle("/agrupaciones/system/", http.StripPrefix("/agrupaciones/system", api.MakeHandler()))
 
 	return nil
 }

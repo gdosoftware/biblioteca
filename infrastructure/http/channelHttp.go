@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/gdosoftware/biblioteca/domain/usecase"
-	"github.com/gdosoftware/biblioteca/domain/interfaces"
-	"github.com/gdosoftware/biblioteca/infrastructure/helper"
-	"github.com/gdosoftware/biblioteca/domain/model"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/usecase"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/interfaces"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/helper"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/model"
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
 )
 

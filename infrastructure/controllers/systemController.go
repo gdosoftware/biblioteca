@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/ant0ine/go-json-rest/rest"
-	"github.com/gdosoftware/biblioteca/infrastructure/http"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/http"
 )
 
 type SystemController struct {

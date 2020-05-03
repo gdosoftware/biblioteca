@@ -3,10 +3,10 @@ package main
 import (
     
 	logger "gitlab.com/fravega-it/arquitectura/ec-golang-logger"
-	"github.com/gdosoftware/biblioteca/infrastructure/http"
-    "github.com/gdosoftware/biblioteca/infrastructure/module"
-    "github.com/gdosoftware/biblioteca/infrastructure/health"
-	"github.com/gdosoftware/biblioteca/infrastructure"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/http"
+    "gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/module"
+    "gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure/health"
+	"gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/infrastructure"
 )
 
 const (

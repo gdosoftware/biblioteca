@@ -1,6 +1,6 @@
 package interfaces
 
-import "github.com/gdosoftware/biblioteca/domain/model"
+import "gitlab.com/fravega-it/adn/ipos/configuracion/agrupaciones/domain/model"
 
 type IChannelGroupUseCase interface {
 	CreateChannelGroup(channelGroup *model.ChannelGroup) (*model.ChannelGroup, error)
