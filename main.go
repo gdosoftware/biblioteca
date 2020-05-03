@@ -11,14 +11,14 @@ import (
 
 const (
 	// Application
-	AppName    = "Medios de pago"
+	AppName    = "Agrupaciones"
 	AppVersion = "0.1.0"
 )
 
 func main() {
 
 	log := logger.GetDefaultLogger()
-	log.Infof("############ Starting Medio de pago Service %v ############", AppVersion)
+	log.Infof("############ Starting Agrupaciones Service %v ############", AppVersion)
 
 	info := http.NewBuildInfo(AppName, AppVersion)
 

@@ -92,11 +92,24 @@ func (d *DBChannelGroupRepository) Retrieve(id string) (model.ChannelGroup, erro
 }
 
 
-func (d *DBChannelGroupRepository) FindAll() ([]model.ChannelGroup, error) {
+func (d *DBChannelGroupRepository) FindAll(app string) ([]model.ChannelGroup, error) {
 	sessionCopy := d.session.Copy()
 	defer sessionCopy.Close()
 	var dbChannelGroup []model.ChannelGroup
-	if err := d.createQuery(sessionCopy, bson.M{"deleted": "false"}).All(&dbChannelGroup); err != nil {
+	if err := d.createQuery(sessionCopy, bson.M{"deleted": "false","application":app}).All(&dbChannelGroup); err != nil {
+		d.log.WithFields(logger.Fields{"error": err}).Error("Error in query execution")
+		return nil, errors.New("Error in query execution")
+	}
+
+	return dbChannelGroup, nil
+}
+
+
+func (d *DBChannelGroupRepository) FindByType(app string, tipo string) ([]model.ChannelGroup, error) {
+	sessionCopy := d.session.Copy()
+	defer sessionCopy.Close()
+	var dbChannelGroup []model.ChannelGroup
+	if err := d.createQuery(sessionCopy, bson.M{"deleted": "false","application":app,"type":tipo}).All(&dbChannelGroup); err != nil {
 		d.log.WithFields(logger.Fields{"error": err}).Error("Error in query execution")
 		return nil, errors.New("Error in query execution")
 	}

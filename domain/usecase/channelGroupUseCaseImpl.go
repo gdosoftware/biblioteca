@@ -30,11 +30,11 @@ func (r *ChannelGroupUseCaseImpl) DeleteChannelGroup(id string) error {
 }
 
 func (r *ChannelGroupUseCaseImpl) FindAllChannelGroup(app string) ([]model.ChannelGroup, error){
-	return r.Repo.FindBy("application",app)
+	return r.Repo.FindAll(app)
 }
 
 func (r *ChannelGroupUseCaseImpl) FindAllChannelGroupByType(app string, tipo string) ([]model.ChannelGroup, error){
-	return r.Repo.FindBy(app, tipo)
+	return r.Repo.FindByType(app, tipo)
 }
 
 /*

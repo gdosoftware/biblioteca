@@ -8,6 +8,6 @@ type IChannelGroupUseCase interface {
 	RetrieveChannelGroup(id string) (model.ChannelGroup, error)
 	DeleteChannelGroup(id string) error
 	FindAllChannelGroup(app string) ([]model.ChannelGroup, error)
-	FindAllChannelGroupByTypefunc(app string, tipo string) ([]model.ChannelGroup, error)
+	FindAllChannelGroupByType(app string, tipo string) ([]model.ChannelGroup, error)
 }
 
